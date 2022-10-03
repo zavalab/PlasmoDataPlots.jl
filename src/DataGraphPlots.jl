@@ -2,7 +2,7 @@ module DataGraphPlots
 
 using Plots, NetworkLayout, GeometryBasics, Graphs, DataGraphs
 
-export plot_graph, set_matrix_node_positions
+export plot_graph, set_matrix_node_positions, set_node_positions
 
 function plot_graph(dg::DataGraphs.DataGraph;
     get_new_positions::Bool=false,
