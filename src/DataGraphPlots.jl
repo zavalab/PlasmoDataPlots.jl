@@ -23,6 +23,7 @@ function plot_graph(dg::DataGraphs.DataGraph;
     nodestrokecolor = :black,
     nodestrokealpha = :none,
     node_z = nothing,
+    framestyle=:box,
     legend::Bool = false,
     save_fig::Bool = false,
     fig_name::String = "plot.png",
@@ -40,7 +41,7 @@ function plot_graph(dg::DataGraphs.DataGraph;
     end
 
 
-    plt = plot(framestyle = :box, grid = false, size = (xdim, ydim), axis = nothing, legend = legend)
+    plt = plot(framestyle = framestyle, grid = false, size = (xdim, ydim), axis = nothing, legend = legend)
     if plot_edges
         for i in dg.edges
             from = i[1]
