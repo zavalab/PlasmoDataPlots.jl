@@ -16,7 +16,8 @@ function plot_graph(dg::DataGraphs.DataGraph;
     linewidth = 1,
     linealpha = 1,
     linecolor = :gray,
-    line_z = :none,
+    line_z = nothing,
+    line_z_grad = :inferno,
     nodecolor = :black,
     nodesize = 5,
     nodestrokewidth = 1,
@@ -29,8 +30,6 @@ function plot_graph(dg::DataGraphs.DataGraph;
     fig_name::String = "plot.png",
 )
 
-    line_options = Dict(:linecolor => linecolor, :linewidth => linewidth, :linealpha => linealpha, line_z => line_z)
-
     am = DataGraphs.adjacency_matrix(dg)
 
     if get_new_positions || length(dg.node_positions) <= 1
@@ -40,17 +39,68 @@ function plot_graph(dg::DataGraphs.DataGraph;
         pos = dg.node_positions
     end
 
+    if line_z != nothing
+        if length(line_z) != length(dg.edges)
+            error("Length of line_z argument is different than the number of edges")
+        end
+
+        line_z_cgrad = cgrad(line_z_grad)
+        edge_min = minimum(line_z)
+        edge_max = maximum(line_z)
+        edge_span = edge_max - edge_min
+    end
+
 
     plt = plot(framestyle = framestyle, grid = false, size = (xdim, ydim), axis = nothing, legend = legend)
     if plot_edges
-        for i in dg.edges
-            from = i[1]
-            to   = i[2]
+        if line_z != nothing
+            plot!([],[], line_z = line_z, linecolor = line_z_cgrad, label = :none)
+            for (j, i) in enumerate(dg.edges)
+                from = i[1]
+                to   = i[2]
 
-            plot!(plt,[pos[from][1], pos[to][1]], [pos[from][2], pos[to][2]];
-                label=:none,
-                line_options...
-            )
+                if line_z != nothing
+                    edge_val = (line_z[j] - edge_min) / edge_span
+                    color = line_z_cgrad[Int(floor(edge_val * 255 + 1))]
+
+                    #line_options = Dict(:linewidth => linewidth, :linealpha => linealpha, line_z => color)
+                    line_options = Dict(:linecolor => color, :linewidth => linewidth, :linealpha => linealpha)
+                else
+                    line_options = Dict(:linecolor => linecolor, :linewidth => linewidth, :linealpha => linealpha)
+
+                end
+
+                plot!(plt,[pos[from][1], pos[to][1]], [pos[from][2], pos[to][2]];
+                    label=:none,
+                    line_options...
+                )
+            end
+        else
+            edge_type = eltype(dg.edge_data.data)
+
+            x_points = Vector{Vector{edge_type}}()
+            y_points = Vector{Vector{edge_type}}()
+            for i in dg.edges
+                from = i[1]
+                to   = i[2]
+
+                xfrom = pos[from][1]
+                xto   = pos[to][1]
+                yfrom = pos[from][2]
+                yto   = pos[to][2]
+
+                push!(x_points, [edge_type(xfrom), edge_type(xto)])
+                push!(y_points, [edge_type(yfrom), edge_type(yto)])
+            end
+
+            #line_options = Dict(:linewidth => linewidth, :linealpha => linealpha, :linecolor => linecolor, :label => :none)
+            if typeof(linecolor) <: Vector && length(linecolor) == length(dg.edges)
+                for i in 1:length(linecolor)
+                    plot!(plt, x_points[i], y_points[i], linecolor = linecolor[i], linewidth = linewidth, linealpha = linealpha, label = :none)
+                end
+            else
+            plot!(plt, x_points, y_points, linecolor = linecolor, linewidth = linewidth, linealpha = linealpha, label = :none)
+            end
         end
     end
 
@@ -97,7 +147,7 @@ function set_tensor_node_positions!(dg, tensor)
         return [a1, b1, c1], [a2, b2, c2]
     end
 
-    n  = [2, 3, -1]
+    n  = [2, 5, -1.5]
     b1 = 3
     c1 = .2
     c2 = 1
