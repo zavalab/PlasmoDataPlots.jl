@@ -61,14 +61,14 @@ random_matrix = rand(15, 15)
 
 matrix_graph = DataGraphs.matrix_to_graph(random_matrix)
 
-set_node_positions!(matrix_graph, random_matrix)
+set_matrix_node_positions!(matrix_graph, random_matrix)
 
 plot_graph(
-    matrix_graph, 
-    nodesize = 8, 
-    linecolor = :grey, 
-    linewidth = 4, 
-    node_z = get_data(matrix_graph).data[:],
-    nodecolor = :algae
+   matrix_graph, 
+   nodesize = 8, 
+   linecolor = :grey, 
+   linewidth = 4, 
+   node_z = get_node_data(matrix_graph).data[:],
+   nodecolor = :algae
 )
  ```
