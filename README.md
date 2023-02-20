@@ -23,7 +23,7 @@ pkg> add https://github.com/dlcole3/DataGraphPlots.jl
 
 ## Overview
 
-DataGraphPlots.jl is designed for plotting the `DataGraph` object. The `DataGraph` object has a node positions attribute that is set by DataGraphPlots.jl if it is not already defined. The node positions are determined by NetworkLayout.jl's `sfdp` function (stands for Scalable Force Directed Placement). Alternatively, when the `DataGraph` was constructed from a matrix or a tensor, the user can set the node positions using `set_matrix_node_positions!` or `set_tensor_node_positions!` functions which take the argument of the `DataGraph` and the original matrix or tensor. 
+DataGraphPlots.jl is designed for plotting the `DataGraph` object. Node positions are saved under the NodeData of the `DataGraph` object. For these positions to be recognized, they must be called "x_positions" and "y_positions". If the user does not define these, the node positions are determined by NetworkLayout.jl's `sfdp` function (stands for Scalable Force Directed Placement). Alternatively, when the `DataGraph` was constructed from a matrix or a tensor, the user can set the node positions using `set_matrix_node_positions!` or `set_tensor_node_positions!` functions which take the argument of the `DataGraph` and the original matrix or tensor. 
 
 The primary function in DataGraphPlots.jl is `plot_graph`, which takes the following, optional keyword arguments:
 
