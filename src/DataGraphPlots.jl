@@ -31,12 +31,23 @@ function plot_graph(dg::DataGraphs.DataGraph;
 )
 
     am = DataGraphs.adjacency_matrix(dg)
+    nodes = dg.nodes
 
-    if get_new_positions || length(dg.node_positions) <= 1
+    if get_new_positions || !("x_positions" in dg.node_data.attributes) || !("y_positions" in dg.node_data.attributes)
         pos = NetworkLayout.sfdp(Graphs.SimpleGraph(am); tol = tol, C = C, K = K, iterations = iterations)
-        dg.node_positions = pos
-    else
-        pos = dg.node_positions
+        if !("x_positions" in dg.node_data.attributes)
+            add_node_attribute!(dg, "x_positions", 0.0)
+        end
+
+        if !("y_positions" in dg.node_data.attributes)
+            add_node_attribute!(dg, "y_positions", 0.0)
+        end
+
+        for i in 1:length(pos)
+            add_node_data!(dg, dg.nodes[i], pos[i][1], "x_positions")
+            add_node_data!(dg, dg.nodes[i], pos[i][2], "y_positions")
+
+        end
     end
 
     if line_z != nothing
@@ -70,27 +81,27 @@ function plot_graph(dg::DataGraphs.DataGraph;
 
                 end
 
-                plot!(plt,[pos[from][1], pos[to][1]], [pos[from][2], pos[to][2]];
+                x_from = get_node_data(dg, from, "x_positions")
+                x_to   = get_node_data(dg, to, "x_positions")
+                y_from = get_node_data(dg, from, "y_positions")
+                y_to   = get_node_data(dg, to, "y_positions")
+
+                plot!(plt,[x_from, x_to], [y_from, y_to];
                     label=:none,
                     line_options...
                 )
             end
         else
-            edge_type = eltype(dg.edge_data.data)
-
-            x_points = Vector{Vector{edge_type}}()
-            y_points = Vector{Vector{edge_type}}()
+            x_points = Vector{Vector}()
+            y_points = Vector{Vector}()
             for i in dg.edges
-                from = i[1]
-                to   = i[2]
+                x_from = get_node_data(dg, nodes[i[1]], "x_positions")
+                x_to   = get_node_data(dg, nodes[i[2]], "x_positions")
+                y_from = get_node_data(dg, nodes[i[1]], "y_positions")
+                y_to   = get_node_data(dg, nodes[i[2]], "y_positions")
 
-                xfrom = pos[from][1]
-                xto   = pos[to][1]
-                yfrom = pos[from][2]
-                yto   = pos[to][2]
-
-                push!(x_points, [edge_type(xfrom), edge_type(xto)])
-                push!(y_points, [edge_type(yfrom), edge_type(yto)])
+                push!(x_points, [x_from, x_to])
+                push!(y_points, [y_from, y_to])
             end
 
             #line_options = Dict(:linewidth => linewidth, :linealpha => linealpha, :linecolor => linecolor, :label => :none)
@@ -104,7 +115,9 @@ function plot_graph(dg::DataGraphs.DataGraph;
         end
     end
 
-    scatter!(plt, [i[1] for i in pos], [i[2] for i in pos];
+    attribute_map = dg.node_data.attribute_map
+
+    scatter!(plt, get_node_data(dg)[:, attribute_map["x_positions"]], get_node_data(dg)[:, attribute_map["y_positions"]];
         markercolor=nodecolor,
         markersize=nodesize,
         markerstrokewidth = nodestrokewidth,
@@ -125,15 +138,14 @@ end
 function set_matrix_node_positions!(dg, mat)
     dim1, dim2 = size(mat)
 
-    positions = []
     for i in 1:length(dg.nodes)
         node_val  = dg.nodes[i]
         node_x    = Float64(node_val[2] * 5)
         node_y    = Float64((dim1 - node_val[1] * 5))
-        push!(positions, Point(node_x, node_y))
-    end
 
-    dg.node_positions = positions
+        add_node_data!(dg, node_val, node_x, "x_positions")
+        add_node_data!(dg, node_val, node_y, "y_positions")
+    end
 end
 
 function set_tensor_node_positions!(dg, tensor)
@@ -160,9 +172,10 @@ function set_tensor_node_positions!(dg, tensor)
         node_val = dg.nodes[i]
         node_x = Float64(e1[1] * node_val[1] + e1[2] * node_val[2] + e1[3] * node_val[3]) / e1_norm
         node_y = Float64(e2[1] * node_val[1] + e2[2] * node_val[2] + e2[3] * node_val[3]) / e2_norm
-        push!(positions, Point(node_x, node_y))
+
+        add_node_data!(dg, node_val, node_x, "x_positions")
+        add_node_data!(dg, node_val, node_y, "y_positions")
     end
-    dg.node_positions = positions
 end
 
 function set_node_positions!(
@@ -175,7 +188,11 @@ function set_node_positions!(
     am = DataGraphs.adjacency_matrix(dg)
 
     pos = NetworkLayout.sfdp(Graphs.SimpleGraph(am); tol = tol, C = C, K = K, iterations = iterations)
-    dg.node_positions = pos
+    nodes = dg.nodes
+    for i in 1:length(pos)
+        add_node_data!(dg, nodes[i], pos[i][1], "x_positions")
+        add_node_data!(dg, nodes[i], pos[i][2], "y_positions")
+    end
 end
 
 end
