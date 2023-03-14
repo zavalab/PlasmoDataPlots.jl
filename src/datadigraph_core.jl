@@ -3,7 +3,7 @@ function plot_graph(dg::DataGraphs.DataDiGraph;
     dag_positions::Bool=false,
     layout = NetworkLayout.Spring(),
     arrow_shift = .8,
-    node_size = 20,
+    node_size = 18,
     node_color = :black,
     edge_color = :gray,
     edge_width = 2,
