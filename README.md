@@ -1,6 +1,6 @@
 # DataGraphPlots
 
-DataGraphPlots.jl is a package for [Julia](https://julialang.org/) designed for visualizing graphs from the [DataGraphs.jl](https://github.com/dlcole3/DataGraphs.jl) package. 
+DataGraphPlots.jl is a package for [Julia](https://julialang.org/) designed for visualizing graphs from the [PlasmoData.jl](https://github.com/zavalab/PlasmoData.jl) package. 
 
 ## Bug Reports and Support
 
@@ -59,7 +59,7 @@ plot_graph(datagraph)
  ```julia
 random_matrix = rand(15, 15)
 
-matrix_graph = DataGraphs.matrix_to_graph(random_matrix)
+matrix_graph = PlasmoData.matrix_to_graph(random_matrix)
 
 set_matrix_node_positions!(matrix_graph, random_matrix)
 
