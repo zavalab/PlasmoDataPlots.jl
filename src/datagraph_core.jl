@@ -1,5 +1,5 @@
 
-function plot_graph(dg::DataGraphs.DataGraph;
+function plot_graph(dg::PlasmoData.DataGraph;
     get_new_positions::Bool=false,
     plot_edges::Bool=true,
     C::Real=1.0,
@@ -25,7 +25,7 @@ function plot_graph(dg::DataGraphs.DataGraph;
     fig_name::String = "plot.png",
 )
 
-    am = DataGraphs.adjacency_matrix(dg)
+    am = PlasmoData.adjacency_matrix(dg)
     nodes = dg.nodes
 
     if get_new_positions || !("x_positions" in dg.node_data.attributes) || !("y_positions" in dg.node_data.attributes)
@@ -131,7 +131,7 @@ function plot_graph(dg::DataGraphs.DataGraph;
 end
 
 # Fix to set in place
-function set_matrix_node_positions!(dg::DataGraphs.DataGraph, mat)
+function set_matrix_node_positions!(dg::PlasmoData.DataGraph, mat)
     dim1, dim2 = size(mat)
 
     node_x_vals = zeros(length(dg.nodes))
@@ -150,7 +150,7 @@ function set_matrix_node_positions!(dg::DataGraphs.DataGraph, mat)
     add_node_dataset!(dg, node_y_vals, "y_positions")
 end
 
-function set_tensor_node_positions!(dg::DataGraphs.DataGraph, tensor)
+function set_tensor_node_positions!(dg::PlasmoData.DataGraph, tensor)
     dim1, dim2, dim3 = size(tensor)
 
     function get_es(a0, b0, c0, b1, c1, c2)
@@ -190,8 +190,8 @@ function set_node_positions!(
     K::Real = 0.1,
     iterations::Int = 300,
     tol::Real = 0.1
-) where {D <: Union{DataGraphs.DataGraph, DataGraphs.DataDiGraph}}
-    am = DataGraphs.adjacency_matrix(dg)
+) where {D <: Union{PlasmoData.DataGraph, PlasmoData.DataDiGraph}}
+    am = PlasmoData.adjacency_matrix(dg)
 
     pos = NetworkLayout.sfdp(Graphs.SimpleGraph(am); tol = tol, C = C, K = K, iterations = iterations)
     nodes = dg.nodes

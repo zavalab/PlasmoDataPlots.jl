@@ -1,8 +1,8 @@
 module DataGraphPlots
 
-using Plots, NetworkLayout, GeometryBasics, Graphs, DataGraphs, GraphMakie, GLMakie, LayeredLayouts, Makie
+using Plots, NetworkLayout, GeometryBasics, Graphs, PlasmoData, GraphMakie, GLMakie, LayeredLayouts, Makie
 
-export plot_graph, set_matrix_node_positions!, set_node_positions!, set_tensor_node_positions!
+export plot_graph, set_matrix_node_positions!, set_node_positions!, set_tensor_node_positions!, plot_graph_path
 
 include("datagraph_core.jl")
 include("datadigraph_core.jl")
