@@ -42,6 +42,7 @@ The primary function in DataGraphPlots.jl is `plot_graph`, which takes the follo
  * `nodestrokealpha`: alpha (transparency) of the border on the node markers
  * `node_z`: Set of data corresponding to node weights. This should be a vector of length equal to the number of nodes. Can be used if the nodes should be color coded by weight
  * `framestyle`: framestyle of plot
+ * `rev`: Boolean indicating, if node_z is defined, that the color gradient from node color will be reversed
  * `legend`: Boolean determining whether there should be a colorbar when `node_z` is defined
  * `save_fig`: Boolean to determine if the figure should be saved or not
  * `fig_name`: Name of the file name that the saved figure should have. 

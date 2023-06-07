@@ -20,6 +20,7 @@ function plot_graph(dg::PlasmoData.DataGraph;
     nodestrokealpha = :none,
     node_z = nothing,
     framestyle=:box,
+    rev::Bool = false,
     legend::Bool = false,
     save_fig::Bool = false,
     fig_name::String = "plot.png",
@@ -112,6 +113,10 @@ function plot_graph(dg::PlasmoData.DataGraph;
 
     attribute_map = dg.node_data.attribute_map
 
+    if !(isequal(node_z, nothing))
+        nodecolor = cgrad(nodecolor, rev = rev)
+    end
+
     Plots.scatter!(plt, get_node_data(dg)[:, attribute_map["x_positions"]], get_node_data(dg)[:, attribute_map["y_positions"]];
         markercolor=nodecolor,
         markersize=nodesize,
@@ -119,7 +124,7 @@ function plot_graph(dg::PlasmoData.DataGraph;
         markerstrokecolor = nodestrokecolor,
         markerstrokealpha = nodestrokealpha,
         marker_z = node_z,
-        label=:none,
+        label=:none
     )
 
     if save_fig
