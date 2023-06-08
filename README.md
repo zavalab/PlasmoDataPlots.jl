@@ -33,8 +33,8 @@ The primary function in DataGraphPlots.jl is `plot_graph`, which takes the follo
  * `xdim`, `ydim`: Determing the dimensions of the final plot (default is 800 for both)
  * `linewidth`: Determines the width of the edges
  * `linealpha`: Determines the alpha value (how transparent the edge is). 
+ * `linecolor`: The color used for the edges. When `line_z` is defined, this should be a color gradient.
  * `line_z`: The set of data corresponding to edge weights. This should be a vector of length equal to the number of edges. Can be used if the edges should be color coded by weight
- * `line_z_grad`: The color gradient used when `line_z` is defined.
  * `nodecolor`: Color of the node markers. When `node_z` is defined, this should be a color gradient.
  * `nodesize`: size of the node markers
  * `nodestrokewidth`: Width of the border on the node markers
@@ -42,7 +42,7 @@ The primary function in DataGraphPlots.jl is `plot_graph`, which takes the follo
  * `nodestrokealpha`: alpha (transparency) of the border on the node markers
  * `node_z`: Set of data corresponding to node weights. This should be a vector of length equal to the number of nodes. Can be used if the nodes should be color coded by weight
  * `framestyle`: framestyle of plot
- * `rev`: Boolean indicating, if node_z is defined, that the color gradient from node color will be reversed
+ * `rev`: Boolean indicating, if node_z or line_z is defined, that the color gradient from node or line color will be reversed
  * `legend`: Boolean determining whether there should be a colorbar when `node_z` is defined
  * `save_fig`: Boolean to determine if the figure should be saved or not
  * `fig_name`: Name of the file name that the saved figure should have. 

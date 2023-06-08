@@ -12,7 +12,7 @@ function plot_graph(dg::PlasmoData.DataGraph;
     linealpha = 1,
     linecolor = :gray,
     line_z = nothing,
-    line_z_grad = :inferno,
+    #line_z_grad = :inferno,
     nodecolor = :black,
     nodesize = 5,
     nodestrokewidth = 1,
@@ -51,7 +51,8 @@ function plot_graph(dg::PlasmoData.DataGraph;
             error("Length of line_z argument is different than the number of edges")
         end
 
-        line_z_cgrad = cgrad(line_z_grad)
+        line_z_cgrad = cgrad(linecolor, rev = rev)
+        cgrad_len = length(line_z_cgrad)
         edge_min = minimum(line_z)
         edge_max = maximum(line_z)
         edge_span = edge_max - edge_min
@@ -68,8 +69,7 @@ function plot_graph(dg::PlasmoData.DataGraph;
 
                 if line_z != nothing
                     edge_val = (line_z[j] - edge_min) / edge_span
-                    color = line_z_cgrad[Int(floor(edge_val * 255 + 1))]
-
+                    color = line_z_cgrad[Int(floor(edge_val * (cgrad_len - 1) + 1))]
                     #line_options = Dict(:linewidth => linewidth, :linealpha => linealpha, line_z => color)
                     line_options = Dict(:linecolor => color, :linewidth => linewidth, :linealpha => linealpha)
                 else
@@ -203,5 +203,18 @@ function set_node_positions!(
     for i in 1:length(pos)
         add_node_data!(dg, nodes[i], pos[i][1], "x_positions")
         add_node_data!(dg, nodes[i], pos[i][2], "y_positions")
+    end
+end
+
+function set_circle_node_positions!(
+    dg::D
+) where {D <: Union{PlasmoData.DataGraph, PlasmoData.DataDiGraph}}
+    num_nodes = length(dg.nodes)
+
+    nodes = dg.nodes
+    for i in 1:num_nodes
+        value = i / num_nodes * 2 * pi
+        add_node_data!(dg, nodes[i], cos(value), "x_positions")
+        add_node_data!(dg, nodes[i], sin(value), "y_positions")
     end
 end
