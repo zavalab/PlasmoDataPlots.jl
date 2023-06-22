@@ -12,7 +12,6 @@ function plot_graph(dg::PlasmoData.DataGraph;
     linealpha = 1,
     linecolor = :gray,
     line_z = nothing,
-    #line_z_grad = :inferno,
     nodecolor = :black,
     nodesize = 5,
     nodestrokewidth = 1,
@@ -77,10 +76,10 @@ function plot_graph(dg::PlasmoData.DataGraph;
 
                 end
 
-                x_from = get_node_data(dg, from, "x_positions")
-                x_to   = get_node_data(dg, to, "x_positions")
-                y_from = get_node_data(dg, from, "y_positions")
-                y_to   = get_node_data(dg, to, "y_positions")
+                x_from = get_node_data(dg, nodes[from], "x_positions")
+                x_to   = get_node_data(dg, nodes[to], "x_positions")
+                y_from = get_node_data(dg, nodes[from], "y_positions")
+                y_to   = get_node_data(dg, nodes[to], "y_positions")
 
                 Plots.plot!(plt,[x_from, x_to], [y_from, y_to];
                     label=:none,
