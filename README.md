@@ -1,10 +1,10 @@
-# DataGraphPlots
+# PlasmoDataPlots
 
-DataGraphPlots.jl is a package for [Julia](https://julialang.org/) designed for visualizing graphs from the [PlasmoData.jl](https://github.com/zavalab/PlasmoData.jl) package. 
+PlasmoDataPlots.jl is a package for [Julia](https://julialang.org/) designed for visualizing graphs from the [PlasmoData.jl](https://github.com/zavalab/PlasmoData.jl) package. 
 
 ## Bug Reports and Support
 
-This package is functional and can be installed as is. It is still under development, and significant changes will continue to come. If you encounter any issues or bugs, please submit them through the [Github issue tracker](https://github.com/dlcole3/DataGraphPlots.jl/issues). 
+This package is functional and can be installed as is. It is still under development, and significant changes will continue to come. If you encounter any issues or bugs, please submit them through the [Github issue tracker](https://github.com/zavalab/PlasmoDataPlots.jl/issues). 
 
 ## Installation
 
@@ -12,20 +12,20 @@ To install this package, you can use
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/dlcole3/DataGraphPlots.jl")
+Pkg.add(url="https://github.com/zavalab/PlasmoDataPlots.jl")
 ```
 
 or
 
 ```julia
-pkg> add https://github.com/dlcole3/DataGraphPlots.jl
+pkg> add https://github.com/zavalab/PlasmoDataPlots.jl
 ```
 
 ## Overview
 
-DataGraphPlots.jl is designed for plotting the `DataGraph` object. Node positions are saved under the NodeData of the `DataGraph` object. For these positions to be recognized, they must be called "x_positions" and "y_positions". If the user does not define these, the node positions are determined by NetworkLayout.jl's `sfdp` function (stands for Scalable Force Directed Placement). Alternatively, when the `DataGraph` was constructed from a matrix or a tensor, the user can set the node positions using `set_matrix_node_positions!` or `set_tensor_node_positions!` functions which take the argument of the `DataGraph` and the original matrix or tensor. 
+PlasmoDataPlots.jl is designed for plotting the `DataGraph` object. Node positions are saved under the NodeData of the `DataGraph` object. For these positions to be recognized, they must be called "x_positions" and "y_positions". If the user does not define these, the node positions are determined by NetworkLayout.jl's `sfdp` function (stands for Scalable Force Directed Placement). Alternatively, when the `DataGraph` was constructed from a matrix or a tensor, the user can set the node positions using `set_matrix_node_positions!` or `set_tensor_node_positions!` functions which take the argument of the `DataGraph` and the original matrix or tensor. 
 
-The primary function in DataGraphPlots.jl is `plot_graph`, which takes the following, optional keyword arguments:
+The primary function in PlasmoDataPlots.jl is `plot_graph`, which takes the following, optional keyword arguments:
 
  * `get_new_positions::Bool`: If true, calculates new positions using NetworkLayout.jl's `sfdp` function. 
  * `plot_edges::Bool`: If false, only the nodes of the `DataGraph` will be plotted. The edges take the longest time to plot, so this can reduce the plotting time for graphs with many nodes where the edges are less important to visualize (e.g., large matrices formed as graphs)

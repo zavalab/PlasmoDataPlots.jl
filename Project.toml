@@ -1,4 +1,4 @@
-name = "DataGraphPlots"
+name = "PlasmoDataPlots"
 uuid = "edc0d1de-cbb6-43e5-80c3-282b59182d08"
 authors = ["dlcole3 <dlcole3@wisc.edu> and contributors"]
 version = "0.1.0"
