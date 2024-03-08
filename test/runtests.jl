@@ -1,6 +1,6 @@
-using DataGraphPlots
+using PlasmoDataPlots
 using Test
 
-@testset "DataGraphPlots.jl" begin
+@testset "PlasmoDataPlots.jl" begin
     # Write your tests here.
 end
