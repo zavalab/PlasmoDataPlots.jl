@@ -1,7 +1,7 @@
 name = "PlasmoDataPlots"
 uuid = "edc0d1de-cbb6-43e5-80c3-282b59182d08"
 authors = ["dlcole3 <dlcole3@wisc.edu> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 GeometryBasics = "5c1252a2-5f33-56bf-86c9-59e7332b4326"

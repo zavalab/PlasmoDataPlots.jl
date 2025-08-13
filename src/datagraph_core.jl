@@ -100,9 +100,20 @@ function plot_graph(dg::PlasmoData.DataGraph;
             end
 
             #line_options = Dict(:linewidth => linewidth, :linealpha => linealpha, :linecolor => linecolor, :label => :none)
-            if typeof(linecolor) <: Vector && length(linecolor) == length(dg.edges)
+            if typeof(linecolor) <: Vector && typeof(linewidth) <: Vector
+                @assert length(linecolor) == length(linewidth) == length(dg.edges)
+                for i in 1:length(linecolor)
+                    Plots.plot!(plt, x_points[i], y_points[i], linecolor = linecolor[i], linewidth = linewidth[i], linealpha = linealpha, label = :none)
+                end
+            elseif typeof(linecolor) <: Vector
+                @assert length(linecolor) == length(dg.edges)
                 for i in 1:length(linecolor)
                     Plots.plot!(plt, x_points[i], y_points[i], linecolor = linecolor[i], linewidth = linewidth, linealpha = linealpha, label = :none)
+                end
+            elseif typeof(linewidth) <: Vector
+                @assert length(linewidth) == length(dg.edges)
+                for i in 1:length(linewidth)
+                    Plots.plot!(plt, x_points[i], y_points[i], linecolor = linecolor, linewidth = linewidth[i], linealpha = linealpha, label = :none)
                 end
             else
             Plots.plot!(plt, x_points, y_points, linecolor = linecolor, linewidth = linewidth, linealpha = linealpha, label = :none)
