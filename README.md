@@ -73,3 +73,22 @@ plot_graph(
    nodecolor = :algae
 )
  ```
+
+## Citing
+If you use `PlasmoDataPlots.jl` in your work, please cite:
+
+David L. Cole and Victor M. Zavala. "PlasmoData.jl — A Julia framework for modeling and analyzing complex data as graphs." *Computers & Chemical Engineering* 185 (2024): 108679. https://doi.org/10.1016/j.compchemeng.2024.108679
+
+Preprint: https://arxiv.org/abs/2401.11404
+
+```bibtex
+@article{cole2024plasmodata,
+  title   = {{PlasmoData.jl — A Julia framework for modeling and analyzing complex data as graphs}},
+  author  = {Cole, David L. and Zavala, Victor M.},
+  journal = {Computers \& Chemical Engineering},
+  volume  = {185},
+  pages   = {108679},
+  year    = {2024},
+  doi     = {10.1016/j.compchemeng.2024.108679}
+}
+```
